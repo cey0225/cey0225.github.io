@@ -1,0 +1,15 @@
+# Hugo build output
+/public
+/resources
+.hugo_build.lock
+
+# Generated CSS (Built by CI/CD)
+/static/css/style.css
+
+# Tailwind standalone binary
+tailwindcss
+tailwindcss-linux-x64
+
+# System files
+.DS_Store
+Thumbs.db

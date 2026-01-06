@@ -1,0 +1,4 @@
+baseURL = 'https://cey0225.github.io/'
+languageCode = 'en-us'
+title = 'cey0225 | Portfolio'
+disableKinds = ["taxonomy", "term"]

@@ -1,0 +1,120 @@
+{{ define "main" }} {{ $langColors := dict "Rust" "bg-[#dea584]" "Go"
+"bg-[#00add8]" "JavaScript" "bg-[#f1e05a]" "TypeScript" "bg-[#3178c6]" "Python"
+"bg-[#3572A5]" "C++" "bg-[#f34b7d]" }}
+
+<div
+    class="min-h-screen bg-[#0d1117] flex flex-col items-center py-24 px-6 font-sans selection:bg-emerald-500/30"
+>
+    <header class="flex flex-col items-center text-center mb-16">
+        <img
+            src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExazU1bnEzcGx3MGRzZmo0dmZiMDh5MGJ6bzV3NWNhOXRjc2Y3eGF4OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/pEuD18F5xjR9SNVmYz/giphy.gif"
+            alt="Coffee"
+            class="w-20 mb-6 [image-rendering:pixelated] hover:scale-110 transition-transform duration-500 ease-in-out"
+        />
+
+        <h1
+            class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight"
+        >
+            hi there.
+        </h1>
+        <p
+            class="text-gray-400 max-w-md mx-auto italic text-base md:text-lg font-light opacity-80"
+        >
+            "Just a quiet place where I keep my code and thoughts."
+        </p>
+
+        <a
+            href="https://github.com/cey0225"
+            target="_blank"
+            class="mt-6 font-mono text-sm text-emerald-500/60 hover:text-emerald-400 transition-colors duration-300 tracking-widest no-underline"
+        >
+            @cey0225
+        </a>
+    </header>
+
+    <div class="w-full max-w-4xl flex flex-col items-center">
+        <div class="w-full flex items-center gap-6 mb-12 opacity-20">
+            <div class="h-px bg-gray-400 grow"></div>
+            <span
+                class="text-[11px] font-mono uppercase tracking-[0.4em] text-gray-300"
+                >Selected Projects</span
+            >
+            <div class="h-px bg-gray-400 grow"></div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-8 w-full">
+            {{ $url := "https://api.github.com/users/cey0225/repos?sort=updated"
+            }} {{ $token := getenv "HUGO_GITHUB_TOKEN" }} {{ $opts := dict }} {{
+            if $token }} {{ $opts = dict "headers" (dict "Authorization" (printf
+            "Bearer %s" $token)) }} {{ end }} {{ $repos := resources.GetRemote
+            $url $opts | transform.Unmarshal }} {{ range $repos }} {{ if and
+            (not .fork) (ne .name "cey0225") }}
+
+            <a
+                href="{{ .html_url }}"
+                target="_blank"
+                class="w-full md:w-[calc(50%-1rem)] min-w-[320px] group relative p-8 rounded-2xl border border-gray-800 bg-[#161b22] transition-all duration-500 ease-out hover:-translate-y-2 hover:border-emerald-500/50 hover:shadow-[0_10px_40px_-10px_rgba(16,185,129,0.2)] flex flex-col"
+            >
+                <div class="flex items-start justify-between mb-6">
+                    <h3
+                        class="text-2xl font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors duration-300 tracking-tight"
+                    >
+                        {{ .name }}
+                    </h3>
+
+                    <div
+                        class="p-2 rounded-lg bg-white/5 text-gray-500 group-hover:text-emerald-400 group-hover:bg-emerald-500/10 transition-all duration-300"
+                    >
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            />
+                        </svg>
+                    </div>
+                </div>
+
+                <p
+                    class="text-gray-400 text-sm mb-10 line-clamp-3 leading-relaxed font-medium group-hover:text-gray-300 transition-colors duration-300"
+                >
+                    {{ .description }}
+                </p>
+
+                <div
+                    class="flex items-center gap-5 text-xs font-mono text-gray-500 mt-auto pt-6 border-t border-gray-800 group-hover:border-emerald-500/20 transition-colors duration-300"
+                >
+                    <span
+                        class="flex items-center gap-2 group-hover:text-gray-400 transition-colors duration-300"
+                    >
+                        {{ $color := index $langColors .language | default
+                        "bg-gray-500" }}
+                        <span
+                            class="w-2.5 h-2.5 rounded-full {{ $color }} shadow-sm"
+                        ></span>
+                        {{ .language }}
+                    </span>
+                    <span
+                        class="flex items-center gap-1.5 group-hover:text-gray-400 transition-colors duration-300"
+                    >
+                        ⭐ {{ .stargazers_count }}
+                    </span>
+                </div>
+            </a>
+            {{ end }} {{ end }}
+        </div>
+    </div>
+
+    <footer
+        class="mt-40 opacity-20 hover:opacity-50 transition-opacity text-[10px] font-mono tracking-widest uppercase select-none"
+    >
+        &lt; built with hugo & tailwind /&gt;
+    </footer>
+</div>
+{{ end }}
